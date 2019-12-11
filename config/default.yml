@@ -780,6 +780,19 @@ PreCommit:
     install_command: 'npm install -g standard'
     include: '**/*.js'
 
+  StandardRb:
+    enabled: false
+    description: 'Analyze with standardrb'
+    required_executable: 'standardrb'
+    install_command: 'gem install standard'
+    include:
+      - '**/*.gemspec'
+      - '**/*.rake'
+      - '**/*.rb'
+      - '**/*.ru'
+      - '**/Gemfile'
+      - '**/Rakefile'
+
   Stylelint:
     enabled: false
     description: 'Check styles with Stylelint'
