@@ -3,7 +3,7 @@
 module Overcommit::Hook::PreCommit
   # Runs `php-cs-fixer` against any modified PHP files.
   class PhpCsFixer < Base
-    MESSAGE_REGEX = /\s+\d+\)\s+(?<file>.*\.php)(?<violated_rules>\s+\(\w+(?:,\s+)?\))?/
+    MESSAGE_REGEX = /\d+\)\s+(?<file>.*\.php)(?<violated_rules>\s+\((?:.*)\))/
 
     def run
       messages = []
@@ -26,10 +26,11 @@ module Overcommit::Hook::PreCommit
         feedback = parse_messages(messages)
       end
 
-      :pass if exit_status_sum == 0
-      :pass if feedback.empty?
-
-      feedback
+      if exit_status_sum == 0
+        :pass
+      else
+        feedback.empty? ? :fail : [:fail, feedback]
+      end
     end
 
     def parse_messages(messages)
@@ -37,17 +38,7 @@ module Overcommit::Hook::PreCommit
 
       messages.map do |message|
         message.scan(MESSAGE_REGEX).map do |file, violated_rules|
-          type = :error
-          unless violated_rules.nil?
-            type = :warning
-          end
-          text = if type == :error
-                   "Cannot process #{file}: Syntax error"
-                 else
-                   "#{file} has been fixed"
-                 end
-
-          output << Overcommit::Hook::Message.new(type, file, 0, text)
+          output << file + violated_rules
         end
       end
 
