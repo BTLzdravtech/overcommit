@@ -1,6 +1,10 @@
 # Overcommit Changelog
 
-## master (unreleased)
+## 0.52.1
+
+* Fix case where no standard input is provided to `pre-push` hooks
+
+## 0.52.0
 
 * Fix `Mdl` to properly parse JSON output from `mdl`
 * Add `GolangciLint` pre-commit and pre-push hooks
