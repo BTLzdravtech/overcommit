@@ -402,6 +402,13 @@ PreCommit:
       - '**/Makefile'
       - '**/*.go'
 
+  Hawkeye:
+    enabled: false
+    description: 'Analyze with Hawkeye'
+    required_executable: 'hawkeye-scan'
+    install_command: 'npm install -g BTLzdravtech/scanner-cli'
+    flags: ['-o', '-m', 'files-contents', '-m', 'files-entropy']
+
   Hlint:
     enabled: false
     description: 'Analyze with hlint'
