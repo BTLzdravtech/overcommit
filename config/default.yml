@@ -277,10 +277,11 @@ PreCommit:
 
   ErbLint:
     enabled: false
-    description: 'Analyze with ERB Lint'
+    description: 'Analyze with erb-lint'
     required_executable: 'erblint'
-    install_command: 'bundle install erb_lint'
-    include: '**/*.html.erb'
+    install_command: 'gem install erblint'
+    include:
+      - '**/*.html.erb'
 
   EsLint:
     enabled: false
