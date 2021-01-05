@@ -64,7 +64,7 @@ module Overcommit::Utils
       end
 
       def win32_symlink?(dir_output)
-        !(dir_output =~ /<SYMLINK>/).nil?
+        !(dir_output.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "") =~ /<SYMLINK>/).nil?
       end
     end
   end

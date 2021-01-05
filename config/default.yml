@@ -277,11 +277,10 @@ PreCommit:
 
   ErbLint:
     enabled: false
-    description: 'Analyze with erb-lint'
+    description: 'Analyze with ERB Lint'
     required_executable: 'erblint'
-    install_command: 'gem install erblint'
-    include:
-      - '**/*.html.erb'
+    install_command: 'bundle install erb_lint'
+    include: '**/*.html.erb'
 
   EsLint:
     enabled: false
@@ -346,7 +345,7 @@ PreCommit:
     keywords: ['FContext','FDescribe','FIt','FMeasure','FSpecify','FWhen']
 
   GoFmt:
-    enabled: true
+    enabled: false
     description: 'Fix with go fmt'
     required_executable: 'go'
     command: ['go', 'fmt']
@@ -1265,9 +1264,14 @@ PrepareCommitMsg:
   ReplaceBranch:
     enabled: false
     description: 'Prepends the commit message with text based on the branch name'
-    branch_pattern: '\A.*\w+[-_](\d+).*\z'
+    branch_pattern: '\A(\d+)-(\w+).*\z'
     replacement_text: '[#\1]'
-    skipped_commit_types: ['message', 'template', 'merge', 'squash']
+    skipped_commit_types:
+     - 'message'  # if message is given via `-m`, `-F`
+     - 'template' # if `-t` is given or `commit.template` is set
+     - 'commit'   # if `-c`, `-C`, or `--amend` is given
+     - 'merge'    # if merging
+     - 'squash'   # if squashing
     on_fail: warn
 
 # Hooks that run during `git push`, after remote refs have been updated but

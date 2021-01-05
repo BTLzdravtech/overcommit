@@ -1,8 +1,28 @@
 # Overcommit Changelog
 
-## master
+## 0.57.0
+
+* Fix `CommitMsg` hooks to be able to call `modified_lines_in_file`.
+* Add `ErbLint` pre-commit hook to lint ERB files.
+
+## 0.56.0
+
+* Update `ReplaceBranch` prepare-commit-msg hook to avoid running on `--amend` by default.
+* Add support for `modified_files` and `modified_lines_in_file` in `CommitMsg` hooks.
+
+## 0.55.0
+
+* Fix `GoFmt` to not be enabled by default. This was enabled by mistake when introduced in Overcommit `0.52.0`.
+
+## 0.54.1
+
+* Fix `Overcommit::GitRepo.list_files` helper to work with arbitrarily large lists of files.
+* Fix `AuthorName` to allow mononyms to be more inclusive of names.
+
+## 0.54.0
 
 * Fix `YamlLint` pre-commit hook
+* Relax `childprocess` gem version constraint to allow version 4.x
 
 ## 0.53.0
 
