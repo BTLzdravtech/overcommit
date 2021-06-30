@@ -2,16 +2,16 @@
 
 require 'spec_helper'
 
-describe Overcommit::Hook::PrePush::Pronto do
+describe Overcommit::Hook::PreCommit::DartAnalyzer do
   let(:config)  { Overcommit::ConfigurationLoader.default_configuration }
   let(:context) { double('context') }
   subject { described_class.new(config, context) }
 
   before do
-    subject.stub(:applicable_files).and_return(%w[file1.rb file2.rb])
+    subject.stub(:applicable_files).and_return(%w[file1.dart file2.dart])
   end
 
-  context 'when pronto exits successfully' do
+  context 'when dartanalyzer exits successfully' do
     before do
       result = double('result')
       result.stub(:success?).and_return(true)
@@ -21,7 +21,7 @@ describe Overcommit::Hook::PrePush::Pronto do
     it { should pass }
   end
 
-  context 'when pronto exits unsucessfully' do
+  context 'when dartanalyzer exits unsucessfully' do
     let(:result) { double('result') }
 
     before do
@@ -32,27 +32,16 @@ describe Overcommit::Hook::PrePush::Pronto do
     context 'and it reports an error' do
       before do
         result.stub(:stdout).and_return([
-          'file2.rb:10 E: IDENTICAL code found in :iter.',
+          'Analyzing file1.dart...',
+          'error • message_ommitted • lib/file1.dart:35:3 • rule',
+          'Analyzing file2.dart...',
+          'hint • message_ommitted • lib/file2.dart:100:13 • rule',
+          'info • message_ommitted • lib/file2.dart:113:16 • rule',
+          '3 lints found.'
         ].join("\n"))
       end
 
       it { should fail_hook }
-    end
-
-    context 'and it reports a warning' do
-      before do
-        result.stub(:stdout).and_return <<~MESSAGE
-          Running Pronto::Rubocop
-          file1.rb:12 W: Line is too long. [107/80]
-          file2.rb:14 I: Prefer single-quoted strings
-
-          ```suggestion
-          x = 'x'
-          ```
-        MESSAGE
-      end
-
-      it { should warn }
     end
   end
 end

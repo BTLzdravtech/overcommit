@@ -498,6 +498,7 @@ issue](https://github.com/sds/overcommit/issues/238) for more details.
 * [CoffeeLint](lib/overcommit/hook/pre_commit/coffee_lint.rb)
 * [Credo](lib/overcommit/hook/pre_commit/credo.rb)
 * [CssLint](lib/overcommit/hook/pre_commit/css_lint.rb)
+* [DartAnalyzer](lib/overcommit/hook/pre_commit/dart_analyzer.rb)
 * [Dogma](lib/overcommit/hook/pre_commit/dogma.rb)
 * [ErbLint](lib/overcommit/hook/pre_commit/erb_lint.rb)
 * [EsLint](lib/overcommit/hook/pre_commit/es_lint.rb)
@@ -580,10 +581,12 @@ but before any objects have been transferred. If a hook fails, the push is
 aborted.
 
 * [Brakeman](lib/overcommit/hook/pre_push/brakeman.rb)
+* [FlutterTest](lib/overcommit/hook/pre_push/flutter_test.rb)
 * [Minitest](lib/overcommit/hook/pre_push/minitest.rb)
 * [PhpUnit](lib/overcommit/hook/pre_push/php_unit.rb)
 * [Pronto](lib/overcommit/hook/pre_push/pronto.rb)
 * [ProtectedBranches](lib/overcommit/hook/pre_push/protected_branches.rb)
+* [PubTest](lib/overcommit/hook/pre_push/pub_test.rb)
 * [Pytest](lib/overcommit/hook/pre_push/pytest.rb)
 * [PythonNose](lib/overcommit/hook/pre_push/python_nose.rb)
 * [RakeTarget](lib/overcommit/hook/pre_push/rake_target.rb)

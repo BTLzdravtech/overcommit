@@ -1,5 +1,21 @@
 # Overcommit Changelog
 
+## master (unreleased)
+
+* Add `--disable-pending-cops` as default flag to `RuboCop` pre-commit hook to ignore non-existent cops. Requires RuboCop `0.82.0` or newer.
+
+## 0.58.0
+
+* Add `rexml` dependency explicitly to support Ruby 3.0.
+* Add `DartAnalyzer` pre-commit hook to analyze Dart files.
+* Add `PubTest` and `FlutterTest` pre-push hooks to run `pub test` and `flutter test` for Dart projects, respectively.
+* Update `index-tags` script to support scanning only files tracked by Git.
+* Fix `EsLint` pre-commit hook to not report certain false positives.
+* Update `YamlLint` to `fail` the run instead of `warn` when errors are detected.
+* Update `YamlLint` parse the line number of output so it is line aware.
+* Gracefully handle breaking behavior in upstream Psych gem to support YAML aliases.
+* Fix case where `git` would delete all tracked files when popping stash.
+
 ## 0.57.0
 
 * Fix `CommitMsg` hooks to be able to call `modified_lines_in_file`.

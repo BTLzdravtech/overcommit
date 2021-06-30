@@ -26,6 +26,7 @@ module Overcommit::HookContext
       # Returns whether the current git branch is empty (has no commits).
       def initial_commit?
         return @initial_commit unless @initial_commit.nil?
+
         @initial_commit = Overcommit::GitRepo.initial_commit?
       end
 
@@ -63,6 +64,7 @@ module Overcommit::HookContext
         (staged_files + unstaged_files).each do |file|
           next if Overcommit::Utils.broken_symlink?(file)
           next unless File.exist?(file) # Ignore renamed files (old file no longer exists)
+
           @modified_times[file] = File.mtime(file)
         end
       end
@@ -101,6 +103,7 @@ module Overcommit::HookContext
         @modified_times.each do |file, time|
           next if Overcommit::Utils.broken_symlink?(file)
           next unless File.exist?(file)
+
           File.utime(time, time, file)
         end
       end
@@ -129,7 +132,7 @@ module Overcommit::HookContext
 
       # Applies the stash to the working tree to restore the user's state.
       def restore_working_tree
-        result = Overcommit::Utils.execute(%w[git stash pop --index --quiet])
+        result = Overcommit::Utils.execute(%w[git stash pop --index])
         unless result.success?
           raise Overcommit::Exceptions::HookCleanupFailed,
                 "Unable to restore working tree after #{hook_script_name} hooks run:" \

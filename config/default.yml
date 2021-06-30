@@ -266,6 +266,14 @@ PreCommit:
     install_command: 'npm install -g csslint'
     include: '**/*.css'
 
+  DartAnalyzer:
+    enabled: false
+    description: 'Analyze with dartanalyzer'
+    required_executable: 'dartanalyzer'
+    flags: []
+    include:
+      - '**/*.dart'
+
   Dogma:
     enabled: false
     description: 'Analyze with dogma'
@@ -703,7 +711,7 @@ PreCommit:
     enabled: false
     description: 'Analyze with RuboCop'
     required_executable: 'rubocop'
-    flags: ['--format=emacs', '--force-exclusion', '--display-cop-names']
+    flags: ['--format=emacs', '--force-exclusion', '--display-cop-names', '--disable-pending-cops']
     install_command: 'gem install rubocop'
     include:
       - '**/*.gemspec'
@@ -1297,6 +1305,12 @@ PrePush:
     flags: ['test']
     include: 'src/**/*.rs'
 
+  FlutterTest:
+    enabled: false
+    description: 'Run flutter test suite'
+    required_executable: 'flutter'
+    flags: ['test']
+
   GitLfs:
     enabled: false
     description: 'Upload files tracked by Git LFS'
@@ -1342,6 +1356,12 @@ PrePush:
     description: 'Check for illegal pushes to protected branches'
     destructive_only: true
     branches: ['master']
+
+  PubTest:
+    enabled: false
+    description: 'Run pub test suite'
+    required_executable: 'pub'
+    flags: ['run', 'test']
 
   Pytest:
     enabled: false

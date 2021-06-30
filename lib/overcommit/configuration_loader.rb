@@ -24,13 +24,16 @@ module Overcommit
       # @option logger [Overcommit::Logger]
       # @return [Overcommit::Configuration]
       def load_from_file(file, options = {})
-        hash =
-          if yaml = YAML.load_file(file)
-            yaml.to_hash
-          else
-            {}
+        # Psych 4 introduced breaking behavior that doesn't support aliases by
+        # default. Explicitly enable aliases if the option is available.
+        yaml =
+          begin
+            YAML.load_file(file, aliases: true)
+          rescue ArgumentError
+            YAML.load_file(file)
           end
 
+        hash = yaml ? yaml.to_hash : {}
         Overcommit::Configuration.new(hash, options)
       end
     end
@@ -72,10 +75,10 @@ module Overcommit
       config
     rescue Overcommit::Exceptions::ConfigurationSignatureChanged
       raise
-    rescue StandardError => error
+    rescue StandardError => e
       raise Overcommit::Exceptions::ConfigurationError,
-            "Unable to load configuration from '#{file}': #{error}",
-            error.backtrace
+            "Unable to load configuration from '#{file}': #{e}",
+            e.backtrace
     end
 
     private
