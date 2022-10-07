@@ -2,6 +2,7 @@
 
 require 'childprocess'
 require 'tempfile'
+require 'overcommit/os'
 
 module Overcommit
   # Manages execution of a child process, collecting the exit status and

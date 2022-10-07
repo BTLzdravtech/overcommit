@@ -1,0 +1,62 @@
+name: Tests
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  rspec:
+    timeout-minutes: 15
+    runs-on: ${{ matrix.os }}-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version:
+          - '2.6'
+          - '2.7'
+          - '3.0'
+          - '3.1'
+        os:
+          - ubuntu
+          - windows
+
+        # Tempfile behavior has changed on Ruby 3.1 such that tests
+        # fail with permission denied. Would welcome a PR with a fix.
+        exclude:
+          - ruby-version: '3.1'
+            os: windows
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Run tests
+        run: |
+          git config --global user.email "gh-actions@example.com"
+          git config --global user.name "GitHub Actions"
+          bundle exec rspec
+
+      - name: Code coverage reporting
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: ruby${{ matrix.ruby-version }}-${{ matrix.os }}
+          parallel: true
+
+  finish:
+    needs: rspec
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Finalize code coverage report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true

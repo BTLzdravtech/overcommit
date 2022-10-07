@@ -119,17 +119,17 @@ describe Overcommit::Utils do
   describe '.supported_hook_types' do
     subject { described_class.supported_hook_types }
 
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
     it { should =~ %w[commit-msg pre-commit post-checkout post-commit post-merge post-rewrite pre-push pre-rebase prepare-commit-msg] }
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
   end
 
   describe '.supported_hook_type_classes' do
     subject { described_class.supported_hook_type_classes }
 
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
     it { should =~ %w[CommitMsg PreCommit PostCheckout PostCommit PostMerge PostRewrite PrePush PreRebase PrepareCommitMsg] }
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
   end
 
   describe '.parent_command' do
@@ -190,7 +190,7 @@ describe Overcommit::Utils do
       it 'invokes CommandSplitter.execute' do
         Overcommit::CommandSplitter.
           should_receive(:execute).
-          with(arguments, args: splittable_args).
+          with(arguments, { args: splittable_args }).
           and_return(double(status: 0, stdout: '', stderr: ''))
         subject
       end
@@ -215,7 +215,7 @@ describe Overcommit::Utils do
     end
 
     it 'executes the command' do
-      wait_until { subject.exited? } # Make sure process terminated before checking
+      wait_until(timeout: 5) { subject.exited? } # Make sure process terminated before checking
       File.exist?('some-file').should == true
     end
   end
