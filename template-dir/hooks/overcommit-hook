@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+if Dir.exist?("#{Dir.home}/.rvm/bin")
+  unless ENV['USING_RVM']
+    system("export USING_RVM=true && export PATH=\"~/.rvm/bin:$PATH\" && rvm-auto-ruby #{File.expand_path(__FILE__)} #{ARGV.join(' ')}")
+    exit $?.exitstatus.to_i
+  end
+end
+
 # Entrypoint for Overcommit hook integration. Installing Overcommit will result
 # in all of your git hooks being copied from this file, allowing the framework
 # to manage your hooks for you.
