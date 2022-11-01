@@ -287,6 +287,7 @@ PreCommit:
     enabled: false
     description: 'Analyze with erb-lint'
     required_executable: 'erblint'
+    flags: ['--format', 'compact']
     install_command: 'gem install erblint'
     include:
       - '**/*.html.erb'
