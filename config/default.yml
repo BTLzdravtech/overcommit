@@ -32,6 +32,10 @@
 # your repository, and then set the `gemfile` option below to the name you gave
 # the file.
 # (Generate lock file by running `bundle install --gemfile=.overcommit_gems.rb`)
+#
+# NOTE: the following line will be parsed by a regexp rather than a proper YAML
+# parser, so avoid any values other than false or a string, and don't use inline
+# comments
 gemfile: false
 
 # Where to store hook plugins specific to a repository. These are loaded in
@@ -718,6 +722,11 @@ PreCommit:
     install_command: 'pip install restructuredtext_lint'
     include: '**/*.rst'
 
+  RSpec:
+    enabled: false
+    description: 'Run tests with Rspec'
+    required_executable: 'rspec'
+
   RuboCop:
     enabled: false
     description: 'Analyze with RuboCop'
@@ -798,6 +807,14 @@ PreCommit:
     required_executable: 'slim-lint'
     install_command: 'gem install slim_lint'
     include: '**/*.slim'
+
+  Sorbet:
+    enabled: false
+    description: 'Analyze with Sorbet'
+    required_executable: 'srb'
+    install_command: 'gem install sorbet'
+    command: ['srb', 'tc']
+    include: '**/*.rb'
 
   Sqlint:
     enabled: false

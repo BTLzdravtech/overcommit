@@ -15,7 +15,7 @@ module Overcommit::Hook::PreCommit
       # example message:
       #   path/to/file.rb:1:1: Error message (ruleName)
       extract_messages(
-        output.grep(MESSAGE_REGEX), # ignore header line
+        result.stdout.split("\n\n")[1..],
         MESSAGE_REGEX
       )
     end

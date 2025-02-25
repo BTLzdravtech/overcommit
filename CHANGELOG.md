@@ -1,5 +1,40 @@
 # Overcommit Changelog
 
+## 0.67.0
+
+* Fix bug introduced in 0.65.0 that prevented `gemfile: false` from working correctly
+
+## 0.66.0
+
+* Add `--diff` CLI option for running pre-commit hooks against only changed files
+
+## 0.65.0
+
+* Load bundled gems on expected version
+
+## 0.64.1
+
+* Update minimum version of rexml to address [CVE-2024-49761](https://www.ruby-lang.org/en/news/2024/10/28/redos-rexml-cve-2024-49761/)
+
+## 0.64.0
+
+* Add support for `stylelint` 16+
+* Add `changelog_uri` to gemspec
+
+## 0.63.0
+
+* Add `Sorbet` pre-commit hook
+* Add `RSpec` pre-commit hook
+
+## 0.62.0
+
+* Allow version 5 of `childprocess` gem dependency
+
+## 0.61.0
+
+* Allow `ReplaceBranch` to use `skip_if`
+* Fix local Overcommit file merges with existing `.overcommit.yml`
+
 ## 0.60.0
 
 * Allow overriding `Gemfile.lock` location for `BundleCheck` pre-commit hook

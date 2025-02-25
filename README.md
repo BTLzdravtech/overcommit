@@ -1,8 +1,8 @@
 [![Gem Version](https://badge.fury.io/rb/overcommit.svg)](https://badge.fury.io/rb/overcommit)
-[![Build Status](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/sds/overcommit/badge.svg?branch=master)](https://coveralls.io/github/sds/overcommit?branch=master)
+[![Build Status](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/sds/overcommit/badge.svg?branch=main)](https://coveralls.io/github/sds/overcommit?branch=main)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5da42f7f365e5fef6b4c/maintainability)](https://codeclimate.com/github/sds/overcommit/maintainability)
-[![Inline docs](http://inch-ci.org/github/sds/overcommit.svg?branch=master)](http://inch-ci.org/github/sds/overcommit)
+[![Inline docs](http://inch-ci.org/github/sds/overcommit.svg?branch=main)](http://inch-ci.org/github/sds/overcommit)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/sds/overcommit/master/logo/horizontal.png" width="65%" alt="Overcommit Logo"/>
@@ -17,46 +17,49 @@ are stored in source control. You can also easily
 [add your existing hook scripts](#adding-existing-git-hooks) without writing
 any Ruby code.
 
-* [Requirements](#requirements)
-  * [Dependencies](#dependencies)
-* [Installation](#installation)
-  * [Automatically Install Overcommit Hooks](#automatically-install-overcommit-hooks)
-* [Usage](#usage)
-* [Continuous Integration](#continuous-integration)
-* [Configuration](#configuration)
-  * [Hook Options](#hook-options)
-  * [Hook Categories](#hook-categories)
-  * [Gemfile](#gemfile)
-  * [Plugin Directory](#plugin-directory)
-  * [Signature Verification](#signature-verification)
-* [Built-In Hooks](#built-in-hooks)
-  * [CommitMsg](#commitmsg)
-  * [PostCheckout](#postcheckout)
-  * [PostCommit](#postcommit)
-  * [PostMerge](#postmerge)
-  * [PostRewrite](#postrewrite)
-  * [PreCommit](#precommit)
-  * [PrePush](#prepush)
-  * [PreRebase](#prerebase)
-* [Repo-Specific Hooks](#repo-specific-hooks)
-  * [Adding Existing Git Hooks](#adding-existing-git-hooks)
-* [Security](#security)
-* [Contributing](#contributing)
-* [Community](#community)
-* [Changelog](#changelog)
-* [License](#license)
+- [Requirements](#requirements)
+  - [Windows](#windows)
+  - [Dependencies](#dependencies)
+- [Installation](#installation)
+  - [Automatically Install Overcommit Hooks](#automatically-install-overcommit-hooks)
+- [Usage](#usage)
+  - [Skipping Hooks](#skipping-hooks)
+  - [Disabling Overcommit](#disabling-overcommit)
+  - [Disabling Colorized Output](#disabling-colorized-output)
+- [Continuous Integration](#continuous-integration)
+- [Configuration](#configuration)
+  - [Hook Options](#hook-options)
+  - [Hook Categories](#hook-categories)
+    - [The `ALL` Hook](#the-all-hook)
+  - [Gemfile](#gemfile)
+  - [Plugin Directory](#plugin-directory)
+  - [Quiet Hook Runs](#quiet-hook-runs)
+  - [Concurrency](#concurrency)
+  - [Signature Verification](#signature-verification)
+- [Built-In Hooks](#built-in-hooks)
+  - [CommitMsg](#commitmsg)
+  - [PostCheckout](#postcheckout)
+  - [PostCommit](#postcommit)
+  - [PostMerge](#postmerge)
+  - [PostRewrite](#postrewrite)
+  - [PreCommit](#precommit)
+    - [WARNING: pre-commit hooks cannot have side effects](#warning-pre-commit-hooks-cannot-have-side-effects)
+  - [PrePush](#prepush)
+  - [PreRebase](#prerebase)
+- [Repo-Specific hooks](#repo-specific-hooks)
+  - [Adding Existing Git Hooks](#adding-existing-git-hooks)
+- [Security](#security)
+  - [Disabling Signature Checking](#disabling-signature-checking)
+- [Contributing](#contributing)
+- [Community](#community)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Requirements
 
-This project aims to support the following Ruby runtimes on both \*nix and Windows:
+This project aims to support the following Ruby runtimes on \*nix (and best effort on Windows):
 
-* Ruby 2.4+
-
-### Windows
-
-If you are using Overcommit on **Windows**, make sure you include the `ffi` gem in your
-list of dependencies. Overcommit does not include the `ffi` gem by default since it
-significantly increases the install time for non-Windows platforms.
+* Ruby 2.6+
 
 ### Dependencies
 
@@ -128,6 +131,7 @@ Command Line Flag         | Description
 `-f`/`--force`            | Don't bail on install if other hooks already exist--overwrite them
 `-l`/`--list-hooks`       | Display all available hooks in the current repository
 `-r`/`--run`              | Run pre-commit hook against all tracked files in repository
+`--diff <ref>`            | Run pre-commit hook against all changed files relative to `<ref>`
 `-t`/`--template-dir`     | Print location of template directory
 `-h`/`--help`             | Show command-line flag documentation
 `-v`/`--version`          | Show version
@@ -561,6 +565,7 @@ issue](https://github.com/sds/overcommit/issues/238) for more details.
 * [SemiStandard](lib/overcommit/hook/pre_commit/semi_standard.rb)
 * [ShellCheck](lib/overcommit/hook/pre_commit/shell_check.rb)
 * [SlimLint](lib/overcommit/hook/pre_commit/slim_lint.rb)
+* [Sorbet](lib/overcommit/hook/pre_commit/sorbet.rb)
 * [Sqlint](lib/overcommit/hook/pre_commit/sqlint.rb)
 * [Standard](lib/overcommit/hook/pre_commit/standard.rb)
 * [Stylelint](lib/overcommit/hook/pre_commit/stylelint.rb)
