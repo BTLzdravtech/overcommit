@@ -422,6 +422,12 @@ PreCommit:
     install_command: 'npm install -g BTLzdravtech/scanner-cli'
     flags: ['-o', '-m', 'files-contents', '-m', 'files-entropy']
 
+  HerbLint:
+    enabled: false
+    description: 'Analyze with herb-lint'
+    required_executable: 'herb-lint'
+    include: '**/*.html.erb'
+
   Hlint:
     enabled: false
     description: 'Analyze with hlint'
@@ -573,6 +579,66 @@ PreCommit:
     required_executable: 'nginx'
     flags: ['-t']
     include: '**/nginx.conf'
+
+  OxFmt:
+    enabled: false
+    description: 'Analyze with oxfmt'
+    required_executable: 'oxfmt'
+    flags: ['--check', '--no-error-on-unmatched-pattern']
+    install_command: 'npm install -g oxfmt'
+    include:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.mts'
+      - '**/*.cts'
+      - '**/*.json'
+      - '**/*.jsonc'
+      - '**/*.json5'
+      - '**/*.css'
+      - '**/*.scss'
+      - '**/*.less'
+      - '**/*.pcss'
+      - '**/*.postcss'
+      - '**/*.graphql'
+      - '**/*.gql'
+      - '**/*.graphqls'
+      - '**/*.toml'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - '**/*.html'
+      - '**/*.htm'
+      - '**/*.xhtml'
+      - '**/*.vue'
+      - '**/*.svelte'
+      - '**/*.md'
+      - '**/*.markdown'
+      - '**/*.mdx'
+      - '**/*.hbs'
+      - '**/*.handlebars'
+      - '**/*.mjml'
+
+  OxLint:
+    enabled: false
+    description: 'Analyze with oxlint'
+    required_executable: 'oxlint'
+    flags: ['--format=unix']
+    install_command: 'npm install -g oxlint'
+    include:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.mts'
+      - '**/*.cts'
+      - '**/*.vue'
+      - '**/*.svelte'
+      - '**/*.astro'
 
   Pep257:  # Deprecated – use Pydocstyle instead.
     enabled: false

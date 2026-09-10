@@ -1,7 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/overcommit.svg)](https://badge.fury.io/rb/overcommit)
 [![Build Status](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/sds/overcommit/actions/workflows/tests.yml/badge.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/sds/overcommit/badge.svg?branch=main)](https://coveralls.io/github/sds/overcommit?branch=main)
-[![Maintainability](https://api.codeclimate.com/v1/badges/5da42f7f365e5fef6b4c/maintainability)](https://codeclimate.com/github/sds/overcommit/maintainability)
 [![Inline docs](http://inch-ci.org/github/sds/overcommit.svg?branch=main)](http://inch-ci.org/github/sds/overcommit)
 
 <p align="center">
@@ -522,6 +521,7 @@ issue](https://github.com/sds/overcommit/issues/238) for more details.
 * [LicenseFinder](lib/overcommit/hook/pre_commit/license_finder.rb)
 * [HamlLint](lib/overcommit/hook/pre_commit/haml_lint.rb)
 * [HardTabs](lib/overcommit/hook/pre_commit/hard_tabs.rb)
+* [HerbLint](lib/overcommit/hook/pre_commit/herb_lint.rb)
 * [Hlint](lib/overcommit/hook/pre_commit/hlint.rb)
 * [HtmlHint](lib/overcommit/hook/pre_commit/html_hint.rb)
 * [HtmlTidy](lib/overcommit/hook/pre_commit/html_tidy.rb)
@@ -539,6 +539,8 @@ issue](https://github.com/sds/overcommit/issues/238) for more details.
 * [Mdl](lib/overcommit/hook/pre_commit/mdl.rb)
 * [`*`MergeConflicts](lib/overcommit/hook/pre_commit/merge_conflicts.rb)
 * [NginxTest](lib/overcommit/hook/pre_commit/nginx_test.rb)
+* [OxFmt](lib/overcommit/hook/pre_commit/ox_fmt.rb)
+* [OxLint](lib/overcommit/hook/pre_commit/ox_lint.rb)
 * [PhpCs](lib/overcommit/hook/pre_commit/php_cs.rb)
 * [PhpCsFixer](lib/overcommit/hook/pre_commit/php_cs_fixer.rb)
 * [PhpLint](lib/overcommit/hook/pre_commit/php_lint.rb)

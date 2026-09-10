@@ -1,5 +1,31 @@
 # Overcommit Changelog
 
+## 0.73.0
+
+* Add pre-commit hook for [herb-lint](https://herb-tools.dev/projects/linter)
+* Add default file types to oxc hooks
+* Fix `oxfmt` to not fail if no files are matched
+
+## 0.72.0
+
+* Fix Solargraph regexp capture warning
+* Fix Flay hook when flay crashes instead of silently passing
+* Fix operation state restoration in linked worktrees
+* Update rexml constraint to patch [CVE-2025-58767](https://github.com/advisories/GHSA-c2f4-jgmc-q2r5)
+
+## 0.71.0
+
+* Fix race condition when reading input from stdin in hooks
+* Update Solargraph regex matcher
+
+## 0.70.0
+
+* Add `oxfmt` and `oxlint` pre-commit hooks
+
+## 0.69.0
+
+* Fix processor count detection in sandboxed environments
+
 ## 0.68.0
 
 * Add `Solargraph` pre-commit hook

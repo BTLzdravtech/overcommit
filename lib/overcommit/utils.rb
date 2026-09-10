@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'etc'
 require 'pathname'
 require 'overcommit/os'
 require 'overcommit/subprocess'
@@ -71,6 +72,31 @@ module Overcommit
             end
             File.expand_path(result.stdout.chomp("\n"), Dir.pwd)
           end
+      end
+
+      # Returns an absolute path to a file in the current worktree's Git
+      # directory.
+      #
+      # @param path [String]
+      # @return [String]
+      def git_path(path)
+        cmd = %w[git rev-parse]
+        if GIT_VERSION < '2.5'
+          cmd << '--git-dir'
+        else
+          cmd += ['--git-path', path]
+        end
+
+        result = execute(cmd)
+        unless result.success?
+          raise Overcommit::Exceptions::InvalidGitRepo,
+                'Unable to determine Git path. ' \
+                'Not a recognizable Git repository!'
+        end
+
+        resolved_path = result.stdout.chomp("\n")
+        resolved_path = File.join(resolved_path, path) if GIT_VERSION < '2.5'
+        File.expand_path(resolved_path, Dir.pwd)
       end
 
       # Remove ANSI escape sequences from a string.
@@ -150,6 +176,9 @@ module Overcommit
         else
           `ps -ocommand= -p #{Process.ppid}`.chomp
         end
+      rescue Errno::EPERM, Errno::ENOENT
+        # Process information may not be available, such as inside sandboxed environments
+        nil
       end
 
       # Execute a command in a subprocess, capturing exit status and output from
@@ -212,40 +241,8 @@ module Overcommit
       end
 
       # Return the number of processors used by the OS for process scheduling.
-      #
-      # @see https://github.com/grosser/parallel/blob/v1.6.1/lib/parallel/processor_count.rb#L17-L51
-      def processor_count # rubocop:disable all
-        @processor_count ||=
-          begin
-            if Overcommit::OS.windows?
-              require 'win32ole'
-              result = WIN32OLE.connect('winmgmts://').ExecQuery(
-                'select NumberOfLogicalProcessors from Win32_Processor'
-              )
-              result.to_enum.collect(&:NumberOfLogicalProcessors).reduce(:+)
-            elsif File.readable?('/proc/cpuinfo')
-              IO.read('/proc/cpuinfo').scan(/^processor/).size
-            elsif File.executable?('/usr/bin/hwprefs')
-              IO.popen('/usr/bin/hwprefs thread_count').read.to_i
-            elsif File.executable?('/usr/sbin/psrinfo')
-              IO.popen('/usr/sbin/psrinfo').read.scan(/^.*on-*line/).size
-            elsif File.executable?('/usr/sbin/ioscan')
-              IO.popen('/usr/sbin/ioscan -kC processor') do |out|
-                out.read.scan(/^.*processor/).size
-              end
-            elsif File.executable?('/usr/sbin/pmcycles')
-              IO.popen('/usr/sbin/pmcycles -m').read.count("\n")
-            elsif File.executable?('/usr/sbin/lsdev')
-              IO.popen('/usr/sbin/lsdev -Cc processor -S 1').read.count("\n")
-            elsif File.executable?('/usr/sbin/sysctl')
-              IO.popen('/usr/sbin/sysctl -n hw.ncpu').read.to_i
-            elsif File.executable?('/sbin/sysctl')
-              IO.popen('/sbin/sysctl -n hw.ncpu').read.to_i
-            else
-              # Unknown platform; assume 1 processor
-              1
-            end
-          end
+      def processor_count
+        @processor_count ||= Etc.nprocessors
       end
 
       # Calls a block of code with a modified set of environment variables,
