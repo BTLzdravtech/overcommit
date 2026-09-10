@@ -1,5 +1,9 @@
 # Overcommit Changelog
 
+## Unreleased (fork)
+
+* Close and unlink Tempfiles used for subprocess output explicitly; fixes "Exception in finalizer" EACCES warnings on Windows.
+
 ## 0.73.0
 
 * Add pre-commit hook for [herb-lint](https://herb-tools.dev/projects/linter)

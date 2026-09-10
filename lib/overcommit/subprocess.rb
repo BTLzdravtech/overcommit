@@ -53,6 +53,12 @@ module Overcommit
         out.rewind
 
         Result.new(process.exit_code, out.read, err.read)
+      ensure
+        # Close and unlink explicitly. Leaving this to GC finalizers emits
+        # "Exception in finalizer ... Errno::EACCES" on Windows, because the
+        # Tempfile::Remover finalizer may run before the File is closed and
+        # Windows refuses to unlink an open file.
+        [out, err].compact.each(&:close!)
       end
 
       # Spawns a new process in the background using the given array of
@@ -63,7 +69,11 @@ module Overcommit
         process = ChildProcess.build(*args)
         process.detach = true
 
-        assign_output_streams(process)
+        # Output of a detached process is never read; send it to the null
+        # device instead of leaking Tempfiles that only GC would clean up.
+        null = File.open(File::NULL, 'w')
+        process.io.stdout = null
+        process.io.stderr = null
 
         process.start
       end
